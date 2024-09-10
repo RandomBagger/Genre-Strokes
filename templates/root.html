@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon/game (1).ico">
+
+    <title>Genre Strokes</title>
+
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        #background {
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: repeating-linear-gradient(135deg,
+                    rgba(255, 105, 180, 0),
+                    #ff69b4 10px,
+                    #ff1493 10px,
+                    #ff1493 20px);
+            background-size: 200% 100%;
+            animation: moveBackground1 10s linear infinite;
+            z-index: 0;
+        }
+
+        #background2 {
+            position: fixed;
+            top: -10%;
+            left: -10%;
+            width: 120%;
+            height: 120%;
+            background: repeating-linear-gradient(225deg,
+                    #ff69b4,
+                    #ff69b4 10px,
+                    #ff1493 10px,
+                    #ff1493 20px);
+            background-size: 200% 100%;
+            animation: moveBackground2 10s linear infinite;
+            z-index: -1;
+            /* Behind the first background */
+        }
+
+        @keyframes moveBackground1 {
+            from {
+                background-position: 0 0;
+            }
+
+            to {
+                background-position: 100% 0;
+            }
+        }
+
+        @keyframes moveBackground2 {
+            from {
+                background-position: 100% 100%;
+            }
+
+            to {
+                background-position: 0 100%;
+            }
+        }
+
+        #imageContainer {
+            /* animation: downtoup 2s cubic-bezier(0.42, 0, 0, 0.94) forwards, breathing 4s cubic-bezier(0.42, 0, 0, 0.94) infinite; */
+            animation-name: entry, pump;
+            animation-duration: 2s, 2.5s;
+            animation-delay: 0ms, 3s;
+            animation-timing-function: cubic-bezier(0.47, 0.26, 0, 1), cubic-bezier(0.42, 0, 0, 0.94);
+            animation-iteration-count: 1, infinite;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('static/assets/wallpaper_1_1.png');
+            background-size: contain;
+            background-position: bottom;
+            background-repeat: no-repeat;
+            z-index: 1;
+        }
+
+        @keyframes entry {
+            0% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        @keyframes pump {
+            0% {
+                top: 0%;
+            }
+
+            50% {
+                top: 10%
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        #title {
+            animation: entry_title 2s linear 1;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background-image: url('static/assets/title.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: 2;
+        }
+
+        @keyframes entry_title {
+            0% {
+                top: -50%;
+            }
+
+            100% {
+                top: 0%;
+            }
+        }
+
+        #buttonContainer {
+            position: fixed;
+            bottom: 5%;
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 3;
+        }
+
+        #hideButton {
+            padding: 10px 20px;
+            font-size: 41px;
+            color: white;
+            background: linear-gradient(45deg, crimson, magenta);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s ease;
+        }
+
+        #hideButton:hover {
+            background: linear-gradient(45deg, hotpink, crimson);
+        }
+
+        #gameScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, crimson, magenta);
+            background-size: 200% 200%;
+            animation: moveGradient 10s linear infinite;
+            /* Apply animation */
+            display: none;
+            /* Hidden by default */
+            z-index: -4;
+            /* Ensure it is on top */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            overflow: hidden;
+            /* Ensure no overflow */
+
+        }
+
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 0%;
+            }
+
+            25% {
+                background-position: 100% 0%;
+            }
+
+            50% {
+                background-position: 100% 100%;
+            }
+
+            75% {
+                background-position: 0% 100%;
+            }
+
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+
+        .game-contents {
+            background-color: rgba(255, 255, 255, 0);
+            /* Semi-transparent white background */
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: radial-gradient(circle, crimson, magenta);
+            background-size: 200% 200%;
+            animation: moveGradient 20s linear infinite;
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 80vh;
+            /* Adjust height to fit screen */
+            position: relative;
+            /* Ensure buttons can be positioned absolutely inside */
+            overflow: hidden;
+            /* Prevent overflow */
+        }
+
+        .media {
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            /* Prevent overflow */
+        }
+
+        .media img {
+            max-width: 100%;
+            /* Ensure image fits within container */
+            height: 100%;
+            border-radius: 8px;
+        }
+
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            position: absolute;
+            bottom: 2%;
+            align-items: center;
+            /* Center options horizontally */
+        }
+
+        .option-button {
+            background-color: rgba(255, 0, 255, 0.273);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            text-align: center;
+            width: 100%;
+            /* Extend to full width of parent */
+            box-sizing: border-box;
+            /* Ensure padding is included in the width */
+        }
+
+        .option-button:hover {
+            background-color: rgb(255, 0, 255);
+        }
+
+        form.optionform {
+            background-color: #00000000;
+            width: 90%;
+
+        }
+
+        @media (max-width: 768px) {
+            #title {
+                height: 30%;
+            }
+
+            #hideButton {
+                font-size: 25px;
+                padding: 8px 16px;
+            }
+
+            #gameScreen {
+                background: radial-gradient(circle, crimson, purple);
+                background-size: 200% 200%;
+            }
+
+            .game-contents {
+                /* max-width: ; */
+                background: radial-gradient(circle, rgba(128, 0, 128, 0.2), rgba(255, 0, 255, 0.2));
+                background-size: 200% 200%;
+                width: 100%;
+                height: 100%;
+                max-width: 600px;
+                max-height: 850px;
+                padding: 4%;
+            }
+
+            .option-button {
+                font-size: 14px;
+                padding: 8px;
+                background-color: rgb(101, 0, 101);
+
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="background"></div>
+    <div id="background2"></div>
+    <div id="imageContainer"></div>
+    <div id="title"></div>
+    <div id="buttonContainer">
+        <button id="hideButton" aria-label="Show game screen">HOLD YOUR LOLA</button>
+    </div>
+    <div id="gameScreen">
+
+        <!--  -->
+        <canvas id="rainCanvas" style="background-color: transparent; position: fixed; z-index: -3;"></canvas>
+        <script>
+            const canvas = document.getElementById('rainCanvas');
+            const ctx = canvas.getContext('2d');
+            const numImages = {{ 5* data.SCORE}};
+            const drops = [];
+            const imageUrls = [
+
+                "./static/assets/favicon/favicon.ico",
+                "static/assets/favicon/game (1).ico",
+                "static/assets/favicon/game.ico"
+            ];
+            const images = [];
+
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Load images
+            let loadedImages = 0;
+            imageUrls.forEach(url => {
+                const img = new Image();
+                img.src = url;
+                img.onload = () => {
+                    images.push(img);
+                    loadedImages++;
+                    if (loadedImages === imageUrls.length) {
+                        initializeDrops();
+                        animate();
+                    }
+                };
+            });
+
+            function initializeDrops() {
+                for (let i = 0; i < numImages; i++) {
+                    drops.push({
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        speed: 2 + Math.random() * 5,
+                        image: images[Math.floor(Math.random() * images.length)],
+                        size: 30 + Math.random() * 50,  // Random size between 30 and 80 pixels
+                        rotation: Math.random() * 2 * Math.PI,  // Initial rotation angle
+                        spin: Math.random() * 0.05,  // Random spin speed between 0 and 0.05 radians per frame
+                        spinning: Math.random() > 0.5  // Randomly decide if this drop should spin
+                    });
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                for (const drop of drops) {
+                    ctx.save();  // Save the current state
+                    ctx.translate(drop.x + drop.size / 2, drop.y + drop.size / 2); // Move to the drop's center
+                    ctx.rotate(drop.rotation); // Rotate the canvas
+                    ctx.drawImage(drop.image, -drop.size / 2, -drop.size / 2, drop.size, drop.size); // Draw image at the center
+                    ctx.restore(); // Restore the canvas state
+
+                    drop.y += drop.speed;
+                    if (drop.spinning) {
+                        drop.rotation += drop.spin; // Increment rotation if spinning
+                    }
+                    if (drop.y > canvas.height) {
+                        drop.y = -drop.size;
+                        drop.x = Math.random() * canvas.width;
+                        drop.size = 30 + Math.random() * 50; // Random new size
+                        drop.rotation = Math.random() * 2 * Math.PI; // Random new rotation angle
+                        drop.spin = Math.random() * 0.05; // Random new spin speed
+                        drop.spinning = Math.random() > 0.5; // Randomly decide if it should spin
+                        drop.image = images[Math.floor(Math.random() * images.length)]; // Randomly select a new image
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            window.addEventListener('resize', () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+        </script>
+
+        <!--  -->
+        <div class="game-contents">
+            <div class="media" style="opacity: {{data.opacity}};">
+                {% set extension = data.URL.split('.')[-1] | lower %}
+                {% if extension in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'svg'] %}
+                <img src="{{ data.URL }}" alt="Image">
+                {% elif extension in ['mp4', 'webm', 'ogv', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'mpeg', 'mpg'] %}
+                <video id="videoplayer">
+                    <source src="{{ data.URL }}" type="video/{{ extension }}">
+                    Your browser does not support the video tag.
+                </video>
+                {% else %}
+                <p>Unsupported media type.</p>
+                {% endif %}
+            </div>
+            <div class="options">
+                {% for option in data.OPTIONS %}
+                {% set value = option[0].upper() + option[1:].lower() %}
+                <form action="/answerme" class="optionform" method="POST" style="background-color: #00000000;">
+                    <input type="hidden" name="option_value" value="{{ option }}">
+                    <input type="hidden" name="tag_list" value="{{ data.TAG_LIST }}">
+                    <input type="hidden" name="URL" value="{{ data.URL }}">
+                    <button class="option-button" type="submit">{{value}}</button>
+                </form>
+
+
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('hideButton').addEventListener('click', function () {
+            document.getElementById('background').style.display = 'none';
+            document.getElementById('background2').style.display = 'none';
+            document.getElementById('imageContainer').style.display = 'none';
+            document.getElementById('title').style.display = 'none';
+            document.getElementById('buttonContainer').style.display = 'none';
+            document.getElementById('gameScreen').style.display = 'flex'; // Reveal the game screen
+            document.getElementById('gameScreen').style.zIndex = '4'; // Bring game screen to the front
+            document.getElementsByClassName("media")[0].children[0].play()
+        });
+
+        {% if data.playing %}
+        document.getElementById('hideButton').click()
+        {% endif %}
+    </script>
+</body>
+
+</html>

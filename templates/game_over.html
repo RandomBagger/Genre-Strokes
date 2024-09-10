@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="static/assets/favicon/gameover.ico">
+
+    <title>GAME OVER!!</title>
+    <style>
+        /* Basic reset to remove default margin and padding */
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            /* Prevent scrolling */
+        }
+
+        /* Keyframes for gradient animation */
+        @keyframes moveGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            25% {
+                background-position: 100% 50%;
+            }
+
+            50% {
+                background-position: 0% 50%;
+            }
+
+            75% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Styling for the animated gradient background */
+        .gradient-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, red, black);
+            background-size: 200% 200%;
+            animation: moveGradient 10s linear infinite;
+            /* Apply animation */
+            display: none;
+            /* Hidden by default */
+            z-index: -4;
+            /* Ensure it is on top */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            overflow: hidden;
+            /* Ensure no overflow */
+        }
+
+        /* Styling for the black-and-white image background div */
+
+
+        /* Styling for the game-over image background div */
+        .bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: url('static/assets/gameover.png');
+            background-size: contain;
+            background-position: left;
+            background-repeat: space;
+            z-index: -3;
+            /* Place it above the gradient background */
+        }
+
+        .game-contents {
+            background-color: rgba(255, 255, 255, 0);
+            /* Semi-transparent white background */
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 80vh;
+            /* Adjust height to fit screen */
+            position: relative;
+            /* Ensure buttons can be positioned absolutely inside */
+            overflow: hidden;
+            /* Prevent overflow */
+            z-index: 4;
+        }
+
+        .media {
+            filter: grayscale(100%);
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Prevent overflow */
+        }
+
+        .media img {
+            max-width: 100%;
+            /* Ensure image fits within container */
+            height: auto;
+            border-radius: 8px;
+        }
+
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            width: 100%;
+            position: absolute;
+            bottom: 2%;
+            align-items: center;
+            /* Center options horizontally */
+        }
+
+        .option-button {
+            background-color: crimson;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 10%;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+            text-align: center;
+            width: 100%;
+            /* Extend to full width of parent */
+            box-sizing: border-box;
+            /* Ensure padding is included in the width */
+        }
+
+        .option-button:hover {
+            background: radial-gradient(circle, black, crimson);
+            background-size: 200% 200%;
+            /* animation: moveGradient 10s linear infinite; */
+        }
+
+        #gameScreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Apply animation */
+            display: none;
+            /* Hidden by default */
+            z-index: 4;
+            /* Ensure it is on top */
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            overflow: hidden;
+            /* Ensure no overflow */
+
+        }
+
+        #gameover_text {
+
+            position: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            z-index: 5;
+            /* Place it above the black-and-white background */
+
+        }
+
+
+        @media (max-width: 768px) {
+            #title {
+                height: 30%;
+            }
+
+            #hideButton {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            .game-contents {
+                width: 100%;
+                padding: 4%;
+            }
+
+            .option-button {
+                font-size: 14px;
+                padding: 10%;
+            }
+
+            #gameover_text {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="gradient-bg"></div>
+    <div class="bg"></div>
+
+    <div id="gameScreen">
+
+        <div class="game-contents">
+            <div class="media">
+                <div id="gameover_text">GAME OVER <br> Score:{{data.SCORE}}</div>
+                {% set extension = data.URL.split('.')[-1] | lower %}
+                {% if extension in ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'tiff', 'webp', 'svg'] %}
+                <img src="{{ data.URL }}" alt="{{data.URL}}">
+                {% elif extension in ['mp4', 'webm', 'ogv', 'mov', 'avi', 'mkv', 'wmv', 'flv', 'mpeg', 'mpg'] %}
+                <video autoplay muted>
+                    <source src="{{ data.URL }}" type="video/{{ extension }}">
+                    Your browser does not support the video tag.
+                </video>
+                {% else %}
+                <p>Unsupported media type.</p>
+                {% endif %}
+
+            </div>
+            <div class="options">
+
+                <button class="option-button" onclick="redirectToPage()">TRY AGAIN</button>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+
+        function redirectToPage() {
+            // URL of the page you want to redirect to
+            window.location.href = '/';
+        }
+    </script>
+
+</body>
+
+</html>
