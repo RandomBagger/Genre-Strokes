@@ -1,41 +1,57 @@
-# Genre Strokes
-## Hold the lola
-   Can you guess all the Beauty Or will the lola give up ?
 
+---
 
-### Installation
-   #### Windows
-   ```powershell
-      git clone {github link}
-      cd {folder name}
-      pip install -r requirements.txt
+# **Genre Strokes**
+### **Hold the Lola**
+
+**Can you guess all the Beauty, or will the Lola give up?**
+
+---
+
+## **Installation**
+
+### **Windows**
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/RandomBagger/Genre-Strokes
+   cd Genre-Strokes
    ```
-   - Add the content in .\static\mediaSource\nsfw\
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Add your media content in `.\static\mediaSource\nsfw\`.
 
-   ```powershell
-      python flask-server.py   
+4. Run the Flask server:
+   ```bash
+   python flask-server.py
    ```
 
-   - Go to the localhost link being shown
+5. Open your browser and go to the localhost link provided in the terminal.
 
-### Game play
-   - First add the tags you see appropriate to each material.
-   - Keep filling and after the last one is filled you will be redirected to the game main page.
-   - Now guess the game materials tags!!
+---
 
-   - Many studies shows keeping track of score just increases the pressure on the player , hence we keep track of it in the background.
+## **Gameplay**
 
-   - Beware the higher the score lower the visibility 😁.
+1. **Tagging:**  
+   First, tag the materials with appropriate tags that you see fit.
 
+2. **Main Game:**  
+   After all materials are tagged, you will be redirected to the main game page, where you will guess the tags assigned to the game materials.
 
+3. **Scoring:**  
+   We track the score in the background to keep the pressure off the player (as studies show that visible score increases stress!).
 
-   # Enjoy
+4. **Challenge:**  
+   The higher your score, the lower the visibility! 😁
 
+---
 
+## **Miscellaneous**
+- You can also add links to images and videos in a `.url` file, with each source listed on a new line. The program will automatically recognize and use them.
 
+---
 
-#### Misc
-   You can add links of images and video in a ".url" file with each source in new line without quotes and the program will recognize it.
-<!-- To be removed before uploading -->
+### **Enjoy!**
 
-todo
+--- 
