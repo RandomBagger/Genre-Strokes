@@ -266,7 +266,8 @@ def submit_tags():
     
     img_url = request.form.get("image_url")
     more_tags = request.form.get("additional_tags").lower().split(',')
-    more_tags = list([i.strip() for i in more_tags if i != ''])#Removes empty entries
+    more_tags = [i.strip() for i in more_tags]#Removes spaces from entries
+    more_tags = [i for i in more_tags if i != '']#Removes empty entries
 
     if not selected_options and not more_tags:
         return redirect('/pullForm')
