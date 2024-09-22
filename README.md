@@ -52,6 +52,12 @@
 
 ---
 
+## **Demo Website**
+
+Check out the live demo: [Genre Strokes Demo](https://genrestrokes.pythonanywhere.com/)
+
+---
+
 ### **Enjoy!**
 
---- 
+---
